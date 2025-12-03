@@ -3,8 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DIY Go-Kart</title>
+  <title>72V Electric Go-Kart Build Guide</title>
+
   <style>
+    :root {
+      --bg: #020617;
+      --bg-alt: #02091b;
+      --card: #020817;
+      --accent: #22c55e;
+      --accent-soft: rgba(34, 197, 94, 0.1);
+      --border-subtle: #111827;
+      --text-main: #e5e7eb;
+      --text-muted: #9ca3af;
+      --danger: #f97373;
+    }
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -12,378 +25,896 @@
     }
 
     body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: #050816;
-      color: #f9fafb;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      background: radial-gradient(circle at top, #0b1120 0, #020617 45%, #000 100%);
+      color: var(--text-main);
       line-height: 1.6;
     }
 
-    header {
-      padding: 1.5rem 8vw;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .logo {
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      font-size: 0.9rem;
-    }
-
-    nav a {
-      margin-left: 1.5rem;
+    a {
+      color: var(--accent);
       text-decoration: none;
-      color: #e5e7eb;
-      font-size: 0.9rem;
     }
 
-    nav a:hover {
+    a:hover {
       text-decoration: underline;
     }
 
-    .hero {
-      padding: 4rem 8vw 3rem;
-      display: grid;
-      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
-      gap: 3rem;
-      align-items: center;
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(16px);
+      background: linear-gradient(
+        to bottom,
+        rgba(2, 6, 23, 0.93),
+        rgba(2, 6, 23, 0.75),
+        transparent
+      );
+      border-bottom: 1px solid rgba(15, 23, 42, 0.9);
     }
 
-    .hero-tag {
-      font-size: 0.9rem;
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-      color: #9ca3af;
-      margin-bottom: 0.75rem;
-    }
-
-    .hero h1 {
-      font-size: clamp(2.5rem, 4vw, 3.5rem);
-      margin-bottom: 1rem;
-    }
-
-    .hero p {
-      color: #d1d5db;
-      max-width: 32rem;
-      margin-bottom: 1.75rem;
-    }
-
-    .hero-cta {
+    .nav-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0.8rem 1.25rem;
       display: flex;
-      flex-wrap: wrap;
-      gap: 0.75rem;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
     }
 
-    .btn-primary,
-    .btn-secondary {
-      border-radius: 999px;
-      padding: 0.75rem 1.5rem;
-      border: none;
-      cursor: pointer;
+    .logo {
       font-size: 0.95rem;
-    }
-
-    .btn-primary {
-      background: #22c55e;
-      color: #022c22;
-      font-weight: 600;
-    }
-
-    .btn-secondary {
-      background: transparent;
-      border: 1px solid #4b5563;
-      color: #e5e7eb;
-    }
-
-    .hero-card {
-      background: radial-gradient(circle at top left, #22c55e33, #1f2937 60%);
-      border-radius: 1.5rem;
-      padding: 1.5rem;
-      border: 1px solid #374151;
-    }
-
-    .hero-card h2 {
-      font-size: 1rem;
       text-transform: uppercase;
       letter-spacing: 0.18em;
-      color: #9ca3af;
-      margin-bottom: 0.5rem;
+      font-weight: 700;
+      color: var(--text-muted);
     }
 
-    .hero-card p {
-      font-size: 0.95rem;
-      color: #d1d5db;
-      margin-bottom: 1rem;
+    .pill {
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      padding: 0.18rem 0.75rem;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--text-muted);
+      white-space: nowrap;
     }
 
-    .hero-meta {
-      font-size: 0.8rem;
-      color: #9ca3af;
+    nav {
+      display: flex;
+      gap: 1rem;
+      font-size: 0.85rem;
     }
 
-    .section {
-      padding: 3rem 8vw;
+    nav a {
+      color: var(--text-muted);
+      padding: 0.3rem 0.1rem;
     }
 
-    .section-title {
-      font-size: 1.5rem;
-      margin-bottom: 0.5rem;
+    nav a span {
+      opacity: 0.4;
+      font-size: 0.7rem;
+      margin-right: 0.25rem;
     }
 
-    .section-subtitle {
-      font-size: 0.95rem;
-      color: #9ca3af;
-      margin-bottom: 1.5rem;
-      max-width: 36rem;
+    nav a:hover {
+      color: var(--text-main);
     }
 
-    .about {
+    main {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 1.5rem 1.25rem 3.5rem;
+    }
+
+    .hero {
+      padding-top: 0.75rem;
+      padding-bottom: 2.5rem;
       display: grid;
-      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+      grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
       gap: 2rem;
       align-items: flex-start;
     }
 
-    .about p {
-      color: #e5e7eb;
-    }
-
-    .about-list {
-      margin-top: 1rem;
-      list-style: none;
-    }
-
-    .about-list li::before {
-      content: "•";
-      margin-right: 0.4rem;
-      color: #22c55e;
-    }
-
-    .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1.5rem;
-      margin-top: 1rem;
-    }
-
-    .project-card {
-      background: #020617;
-      border-radius: 1rem;
-      border: 1px solid #1f2937;
-      padding: 1.25rem;
-    }
-
-    .project-tag {
-      font-size: 0.75rem;
+    .hero-kicker {
+      font-size: 0.8rem;
       text-transform: uppercase;
-      letter-spacing: 0.15em;
-      color: #9ca3af;
-      margin-bottom: 0.5rem;
-    }
-
-    .project-title {
-      font-size: 1rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .project-desc {
-      font-size: 0.9rem;
-      color: #d1d5db;
+      letter-spacing: 0.18em;
+      color: var(--text-muted);
       margin-bottom: 0.75rem;
     }
 
-    .project-meta {
+    .hero h1 {
+      font-size: clamp(2.2rem, 4vw, 3.1rem);
+      margin-bottom: 0.75rem;
+    }
+
+    .hero p {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      max-width: 34rem;
+    }
+
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 1.1rem;
+    }
+
+    .hero-tag {
+      font-size: 0.75rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      color: var(--text-muted);
+    }
+
+    .card {
+      border-radius: 1.2rem;
+      border: 1px solid var(--border-subtle);
+      background:
+        radial-gradient(circle at top left, rgba(34, 197, 94, 0.07), transparent 55%),
+        linear-gradient(to bottom right, #020617, #020617);
+      padding: 1.3rem 1.25rem 1.2rem;
+      font-size: 0.85rem;
+    }
+
+    .card-title {
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .card strong {
+      color: var(--accent);
+    }
+
+    .card ul {
+      list-style: none;
+      margin-top: 0.4rem;
+    }
+
+    .card li {
+      margin-bottom: 0.25rem;
+    }
+
+    .danger {
+      color: var(--danger);
+      font-weight: 600;
+    }
+
+    .grid {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+
+    section {
+      margin-bottom: 2.75rem;
+    }
+
+    section header {
+      position: static;
+      backdrop-filter: none;
+      background: none;
+      border: none;
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .section-heading h2 {
+      font-size: 1.4rem;
+    }
+
+    .section-heading p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      max-width: 30rem;
+    }
+
+    .chip {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--text-muted);
+    }
+
+    .parts-list {
+      border-radius: 1.2rem;
+      border: 1px solid var(--border-subtle);
+      background: radial-gradient(circle at top, rgba(15, 23, 42, 0.9), #020617);
+      padding: 1.3rem 1.25rem 1.2rem;
+    }
+
+    .parts-list h3 {
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--text-muted);
+      margin-bottom: 0.65rem;
+    }
+
+    .parts-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+
+    .parts-table th,
+    .parts-table td {
+      padding: 0.45rem 0.25rem;
+      border-bottom: 1px solid #020617;
+      vertical-align: top;
+    }
+
+    .parts-table th {
+      text-align: left;
+      font-weight: 500;
+      color: var(--text-muted);
       font-size: 0.8rem;
-      color: #9ca3af;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .tag-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      border-radius: 999px;
+      padding: 0.2rem 0.55rem;
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(30, 64, 175, 0.4);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .tag-dot {
+      width: 0.42rem;
+      height: 0.42rem;
+      border-radius: 999px;
+      background: var(--accent);
+    }
+
+    .step-grid {
+      display: grid;
+      grid-template-columns: 0.3fr minmax(0, 1.7fr);
+      gap: 1.25rem;
+      border-radius: 1.2rem;
+      border: 1px solid var(--border-subtle);
+      background:
+        radial-gradient(circle at top left, rgba(34, 197, 94, 0.04), transparent 60%),
+        linear-gradient(to bottom, var(--bg-alt), #020617);
+      padding: 1.25rem 1.25rem 1.1rem;
+    }
+
+    .step-label {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--text-muted);
+      margin-bottom: 0.25rem;
+    }
+
+    .step-title {
+      font-size: 1rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .step-body p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .step-body ol {
+      margin-left: 1.1rem;
+      margin-top: 0.3rem;
+      font-size: 0.9rem;
+    }
+
+    .step-body li {
+      margin-bottom: 0.25rem;
+    }
+
+    .inline-heading {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--text-muted);
+      margin-top: 0.55rem;
+      margin-bottom: 0.15rem;
+    }
+
+    .code-pill {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+        "Liberation Mono", "Courier New", monospace;
+      font-size: 0.78rem;
+      padding: 0.15rem 0.4rem;
+      border-radius: 0.5rem;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(55, 65, 81, 0.7);
+      color: var(--text-muted);
     }
 
     footer {
-      padding: 1.5rem 8vw 2rem;
-      font-size: 0.8rem;
-      color: #6b7280;
-      border-top: 1px solid #111827;
-      margin-top: 1rem;
+      border-top: 1px solid var(--border-subtle);
+      margin-top: 2rem;
+      padding-top: 1rem;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      justify-content: space-between;
     }
 
-    footer a {
-      color: inherit;
-      text-decoration: none;
+    @media (max-width: 860px) {
+      .hero {
+        grid-template-columns: minmax(0, 1fr);
+      }
     }
 
-    footer a:hover {
-      text-decoration: underline;
-    }
-
-    @media (max-width: 768px) {
-      header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 1rem;
+    @media (max-width: 720px) {
+      .nav-inner {
+        flex-wrap: wrap;
       }
 
       nav {
-        display: flex;
         width: 100%;
         justify-content: flex-start;
         flex-wrap: wrap;
       }
 
-      nav a {
-        margin-left: 0;
-        margin-right: 1.5rem;
-        margin-bottom: 0.5rem;
-      }
-
       .hero {
+        padding-bottom: 2rem;
+      }
+
+      .step-grid {
         grid-template-columns: minmax(0, 1fr);
       }
 
-      .about {
-        grid-template-columns: minmax(0, 1fr);
+      main {
+        padding-inline: 1rem;
       }
     }
   </style>
 </head>
 <body>
   <header>
-    <div class="logo">DIY Go-Kart Garage</div>
-    <nav>
-      <a href="#about">About</a>
-      <a href="#projects">Builds</a>
-      <a href="#contact">Contact</a>
-    </nav>
+    <div class="nav-inner">
+      <div class="logo">72V Electric Go-Kart</div>
+      <nav>
+        <a href="#parts"><span>01</span>Parts</a>
+        <a href="#tools"><span>02</span>Tools</a>
+        <a href="#mechanical"><span>03</span>Mechanical</a>
+        <a href="#wiring"><span>04</span>Wiring</a>
+        <a href="#testing"><span>05</span>Setup & Test</a>
+      </nav>
+      <div class="pill">Build instructions only</div>
+    </div>
   </header>
 
   <main>
-    <section class="hero">
+    <section class="hero" id="top">
       <div>
-        <div class="hero-tag">High School Garage Builds</div>
-        <h1>Building Electric Go-Karts From Scratch.</h1>
+        <div class="hero-kicker">72V • 5000W • BLDC</div>
+        <h1>How I Built My Electric Go-Kart</h1>
         <p>
-          Follow along as I design, wire, and test my 72V electric go-kart project—
-          from frame design and motor selection to performance testing and upgrades.
+          Step-by-step instructions for assembling a 72&nbsp;V electric go-kart
+          using a 5000&nbsp;W BLDC motor kit. No background story, just what to
+          buy, how to mount it, how to wire it, and how to do first tests.
         </p>
-        <div class="hero-cta">
-          <button class="btn-primary" onclick="scrollToSection('projects')">
-            See Current Builds
-          </button>
-          <button class="btn-secondary" onclick="scrollToSection('about')">
-            Learn More About Me
-          </button>
+        <div class="hero-tags">
+          <span class="hero-tag">Frame &amp; Drivetrain</span>
+          <span class="hero-tag">Motor &amp; Controller</span>
+          <span class="hero-tag">Battery &amp; Protection</span>
+          <span class="hero-tag">Throttle &amp; Brakes</span>
         </div>
       </div>
-      <aside class="hero-card">
-        <h2>Build Stats</h2>
+      <aside class="card">
+        <div class="card-title">Safety checklist</div>
         <p>
-          Latest project: 72V, 5000W BLDC setup using a Kunray KR5V motor,
-          custom mounting, and upgraded battery management.
+          This build uses a high-power battery pack. Always:
         </p>
-        <div class="hero-meta">
-          • Top speed goal: 40+ mph<br />
-          • Focus: safety, efficiency, and fun<br />
-          • Updated whenever I finish a new test
-        </div>
+        <ul>
+          <li>Work with an experienced adult.</li>
+          <li>Use insulated tools and proper fuses.</li>
+          <li>Wear eye protection and gloves.</li>
+          <li>Test off the ground before riding.</li>
+        </ul>
+        <p style="margin-top:0.35rem;">
+          <span class="danger">If you are not sure about any step, stop and ask
+          someone who knows high-voltage DC systems.</span>
+        </p>
       </aside>
     </section>
 
-    <section id="about" class="section">
-      <div class="about">
-        <div>
-          <h2 class="section-title">About the Garage</h2>
-          <p>
-            I’m a high school student documenting my journey into EV power,
-            fabrication, and performance tuning by building electric go-karts.
-            This site is where I share what works, what fails, and everything in between.
-          </p>
-          <ul class="about-list">
-            <li>Breakdowns of parts and wiring</li>
-            <li>Testing results and real-world speeds</li>
-            <li>Notes on what I’d do differently next time</li>
+    <!-- PARTS -->
+    <section id="parts">
+      <div class="section-heading">
+        <h2>1. Parts used</h2>
+        <p>
+          These are example parts that match a 72&nbsp;V, 5000&nbsp;W go-kart
+          build. You can swap them for similar components with the same ratings.
+        </p>
+      </div>
+
+      <div class="parts-list">
+        <h3>Main components</h3>
+        <table class="parts-table">
+          <thead>
+            <tr>
+              <th style="width:32%;">Part</th>
+              <th style="width:32%;">Example link</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>72&nbsp;V 5000&nbsp;W BLDC motor kit</strong></td>
+              <td>
+                <a href="https://cnkunray.com/products/kunray-kr5v-72v-5000w-electric-brushless-motor-for-electric-motorcycle-razor-100a-fardriver-controller-35-chain-set" target="_blank" rel="noopener">
+                  Kunray KR5V kit (motor + controller + throttle)
+                </a>
+              </td>
+              <td>
+                Includes mid-mount motor, Fardriver controller, #35 sprocket and
+                throttle in one kit.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>72&nbsp;V lithium battery pack</strong></td>
+              <td>
+                <a href="https://www.amazon.com/dp/B0FNQYZVJR" target="_blank" rel="noopener">
+                  72&nbsp;V 20–40&nbsp;Ah pack with BMS
+                </a>
+              </td>
+              <td>
+                Choose a pack rated for at least the motor kit’s
+                continuous current and 5000&nbsp;W power.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Main DC fuse (ANL)</strong></td>
+              <td>
+                <a href="https://topsolar.ws/gb/fuses-and-fuse-holders/1302-anl-6-72-volt-200a-standard-fuse-4262440562531.html" target="_blank" rel="noopener">
+                  6–72&nbsp;V 200&nbsp;A ANL fuse
+                </a>
+              </td>
+              <td>
+                Mount as close to the battery <em>positive</em> terminal as possible.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Fuse holder or breaker</strong></td>
+              <td>
+                <a href="https://www.renogy.com/products/20a-30a-40a-60a-80a-100a-200a-300a-400a-anl-fuse-set-w-fuse" target="_blank" rel="noopener">
+                  ANL fuse + holder kit
+                </a>
+              </td>
+              <td>
+                Use a holder or DC breaker rated for the battery voltage and current.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Go-kart frame &amp; rear axle</strong></td>
+              <td>
+                <a href="https://www.google.com/search?q=go+kart+rolling+chassis" target="_blank" rel="noopener">
+                  Rolling chassis / frame
+                </a>
+              </td>
+              <td>
+                Any solid frame with live axle, bearings, hubs, and disc brake.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>#35 chain &amp; sprockets</strong></td>
+              <td>
+                <a href="https://www.google.com/search?q=%2335+go+kart+chain+kit" target="_blank" rel="noopener">
+                  #35 chain kit
+                </a>
+              </td>
+              <td>
+                Motor sprocket usually included with the motor kit. Choose rear
+                sprocket teeth for your target speed.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>High-current wiring</strong></td>
+              <td>
+                <a href="https://www.google.com/search?q=4+AWG+fine+strand+battery+cable" target="_blank" rel="noopener">
+                  4–2&nbsp;AWG battery cable
+                </a>
+              </td>
+              <td>
+                Use fine-strand copper cable for battery-&gt;controller-&gt;motor.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Low-voltage wiring &amp; connectors</strong></td>
+              <td>
+                <a href="https://www.google.com/search?q=automotive+wire+16+18+awg+kit" target="_blank" rel="noopener">
+                  16–18&nbsp;AWG automotive wire kit
+                </a>
+              </td>
+              <td>
+                For key switch, throttle, brake light and control signals.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Key switch or kill switch</strong></td>
+              <td>
+                <a href="https://www.google.com/search?q=48-72v+electric+scooter+key+switch" target="_blank" rel="noopener">
+                  48–72&nbsp;V key switch
+                </a>
+              </td>
+              <td>
+                Used to enable / disable the controller safely.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- TOOLS -->
+    <section id="tools">
+      <div class="section-heading">
+        <h2>2. Tools</h2>
+        <p>
+          Any tools with similar functions will work. Use quality tools and work
+          on a stable, clear surface.
+        </p>
+      </div>
+
+      <div class="grid grid-3">
+        <div class="card">
+          <div class="card-title">Mechanical</div>
+          <ul>
+            <li>Socket and wrench set</li>
+            <li>Allen/hex key set</li>
+            <li>Drill + bits (for steel)</li>
+            <li>Angle grinder or metal saw</li>
+            <li>Measuring tape &amp; straight edge</li>
+            <li>Chain breaker or grinder for chain length</li>
           </ul>
         </div>
-        <div>
-          <h3 class="section-subtitle">What you’ll find here</h3>
-          <p>
-            If you’re into DIY, EVs, or just fast toys with way too much power,
-            you’ll probably enjoy watching these builds evolve over time.
-          </p>
+        <div class="card">
+          <div class="card-title">Electrical</div>
+          <ul>
+            <li>Wire cutters and strippers</li>
+            <li>Crimping tool for lugs</li>
+            <li>Heat-shrink tubing &amp; heat gun</li>
+            <li>Multimeter (voltage &amp; continuity)</li>
+            <li>Insulated screwdrivers</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-title">Safety</div>
+          <ul>
+            <li>Safety glasses and gloves</li>
+            <li>Fire extinguisher rated for electrical fires</li>
+            <li>Jack stands or sturdy blocks to lift rear axle</li>
+            <li>Helmet and closed-toe shoes for testing</li>
+          </ul>
         </div>
       </div>
     </section>
 
-    <section id="projects" class="section">
-      <h2 class="section-title">Recent Builds</h2>
-      <p class="section-subtitle">
-        A quick look at the go-karts I’m currently working on. I’ll keep
-        updating these as I add new parts, tuning, and test runs.
-      </p>
-      <div class="projects-grid">
-        <article class="project-card">
-          <div class="project-tag">Current Build</div>
-          <h3 class="project-title">72V 5000W Street Kart</h3>
-          <p class="project-desc">
-            Full custom frame with 72V battery pack, BLDC motor, and reinforced
-            rear axle for higher torque and better traction.
-          </p>
-          <div class="project-meta">
-            Status: Wiring + first test runs<br />
-            Next: Braking upgrades and throttle tuning
-          </div>
-        </article>
-
-        <article class="project-card">
-          <div class="project-tag">Experiment</div>
-          <h3 class="project-title">Battery Swap Prototype</h3>
-          <p class="project-desc">
-            Testing modular battery mounts so I can swap packs fast without a
-            mess of loose wires or sketchy connections.
-          </p>
-          <div class="project-meta">
-            Status: Design phase<br />
-            Next: 3D-printed brackets and fitment testing
-          </div>
-        </article>
-
-        <article class="project-card">
-          <div class="project-tag">Archived</div>
-          <h3 class="project-title">First Brushed Motor Kart</h3>
-          <p class="project-desc">
-            My original build using a cheap brushed motor kit. Slow, janky, but
-            it taught me the basics of mounting, chain tension, and gearing.
-          </p>
-          <div class="project-meta">
-            Status: Retired<br />
-            Next: Maybe a full rebuild with new parts someday
-          </div>
-        </article>
+    <!-- MECHANICAL BUILD -->
+    <section id="mechanical">
+      <div class="section-heading">
+        <h2>3. Mechanical setup</h2>
+        <p>
+          Install the motor, chain drive, and battery mounts before touching
+          wiring. Keep all high-power parts low and centered for stability.
+        </p>
       </div>
+
+      <article class="step-grid">
+        <div>
+          <div class="step-label">Step 3.1</div>
+          <div class="step-title">Mount the motor</div>
+        </div>
+        <div class="step-body">
+          <p>
+            Use the motor’s mounting slots or plate to attach it firmly to the frame.
+          </p>
+          <ol>
+            <li>Position the motor near the rear axle on the same side as the sprocket.</li>
+            <li>Align the motor sprocket with the axle sprocket as straight as possible.</li>
+            <li>Mark bolt locations on the frame, then drill the mounting holes.</li>
+            <li>
+              Bolt the motor down with grade-8 hardware and lock nuts. Leave a
+              small amount of adjustment room for chain tension.
+            </li>
+          </ol>
+
+          <p class="inline-heading">Tips</p>
+          <p>
+            Keep at least one slot or slotted bracket so you can slide the motor
+            forward/backward to tension the chain.
+          </p>
+        </div>
+      </article>
+
+      <article class="step-grid">
+        <div>
+          <div class="step-label">Step 3.2</div>
+          <div class="step-title">Install chain &amp; sprockets</div>
+        </div>
+        <div class="step-body">
+          <ol>
+            <li>Install the rear #35 sprocket on the axle if it is not already mounted.</li>
+            <li>
+              Wrap the chain around both sprockets and mark the correct length
+              with 1–2&nbsp;links of slack.
+            </li>
+            <li>Use a chain breaker or grinder to cut it to length.</li>
+            <li>
+              Re-join the chain with a master link. Rotate the axle slowly to
+              check that the chain runs straight and doesn’t bind.
+            </li>
+            <li>
+              Slide the motor to tension the chain: there should be a small
+              amount of vertical play (roughly 10–15&nbsp;mm at the longest span).
+            </li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="step-grid">
+        <div>
+          <div class="step-label">Step 3.3</div>
+          <div class="step-title">Mount the battery and controller</div>
+        </div>
+        <div class="step-body">
+          <ol>
+            <li>
+              Choose a spot in the center of the frame, low and protected from
+              debris, for the battery pack.
+            </li>
+            <li>
+              Build a box or tray for the pack using steel angle or thick
+              plywood. Strap it down tightly with metal straps or ratchet straps.
+            </li>
+            <li>
+              Mount the controller on a metal plate with airflow. Keep it close
+              to both the motor and battery to minimize cable length.
+            </li>
+            <li>
+              Make sure nothing can hit the battery or controller when the
+              steering is turned or the suspension moves.
+            </li>
+          </ol>
+        </div>
+      </article>
     </section>
 
-    <section id="contact" class="section">
-      <h2 class="section-title">Contact</h2>
-      <p class="section-subtitle">
-        Want to ask about a build, suggest a mod, or point out that I wired
-        something in the dumbest way possible? Reach out below.
-      </p>
-      <p>
-        (You can replace this section later with a real contact form or an email link.)
-      </p>
+    <!-- WIRING -->
+    <section id="wiring">
+      <div class="section-heading">
+        <h2>4. High-voltage wiring</h2>
+        <p>
+          Follow the wiring diagram from your motor kit exactly. This section
+          shows the general order and layout used in the build.
+        </p>
+      </div>
+
+      <article class="step-grid">
+        <div>
+          <div class="step-label">Step 4.1</div>
+          <div class="step-title">Plan the power path</div>
+        </div>
+        <div class="step-body">
+          <p>
+            Layout the main power wiring before cutting anything. The typical
+            order is:
+          </p>
+          <p>
+            <span class="code-pill">Battery + → Fuse → Switch/Breaker → Controller +</span><br />
+            <span class="code-pill">Controller − → Battery −</span>
+          </p>
+          <ol>
+            <li>
+              Disconnect the battery while planning. Never work with a live pack.
+            </li>
+            <li>
+              Mark cable routes along the frame where they will be protected and
+              tied down.
+            </li>
+            <li>
+              Avoid sharp edges and moving parts. Use grommets where cables pass
+              through metal.
+            </li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="step-grid">
+        <div>
+          <div class="step-label">Step 4.2</div>
+          <div class="step-title">Install fuse and main switch</div>
+        </div>
+        <div class="step-body">
+          <ol>
+            <li>
+              Mount the ANL fuse holder or DC breaker within 15–20&nbsp;cm of
+              the battery positive terminal.
+            </li>
+            <li>
+              Cut a short cable from battery&nbsp;+ to the <em>input</em> of the
+              fuse or breaker and crimp lugs on both ends.
+            </li>
+            <li>
+              Cut a second cable from the <em>output</em> of the fuse/breaker to
+              the controller&nbsp;+ terminal.
+            </li>
+            <li>
+              Install the fuse but leave it removed or switched off until final testing.
+            </li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="step-grid">
+        <div>
+          <div class="step-label">Step 4.3</div>
+          <div class="step-title">Connect controller and motor</div>
+        </div>
+        <div class="step-body">
+          <ol>
+            <li>
+              Connect the controller’s three phase outputs (usually labeled
+              U/V/W or A/B/C) to the motor’s three phase wires with the
+              matching color pairs from the kit.
+            </li>
+            <li>
+              Connect the controller’s main negative (B−) directly to the
+              battery negative using heavy cable.
+            </li>
+            <li>
+              Tighten all studs with lock washers and nuts. Cover exposed
+              terminals with heat-shrink or boots.
+            </li>
+          </ol>
+
+          <p class="inline-heading">Hall sensors &amp; other motor leads</p>
+          <p>
+            Plug the motor’s hall sensor connector into the matching controller
+            plug from the kit. Do not cut or swap individual hall wires unless
+            the manual tells you to.
+          </p>
+        </div>
+      </article>
+
+      <article class="step-grid">
+        <div>
+          <div class="step-label">Step 4.4</div>
+          <div class="step-title">Low-voltage wiring (throttle &amp; key)</div>
+        </div>
+        <div class="step-body">
+          <ol>
+            <li>
+              Mount the throttle on the steering wheel or pedal according to
+              the kit instructions.
+            </li>
+            <li>
+              Plug the throttle connector into the controller’s throttle input
+              harness as labeled in the controller manual.
+            </li>
+            <li>
+              Wire the key switch in series with the controller’s low-voltage
+              enable wire (often labeled “ignition”, “on/off”, or “lock”). This
+              lets the key turn the controller on and off.
+            </li>
+            <li>
+              Zip-tie all small wires away from the chain and tires.
+            </li>
+          </ol>
+        </div>
+      </article>
     </section>
+
+    <!-- TESTING -->
+    <section id="testing">
+      <div class="section-heading">
+        <h2>5. Setup and first tests</h2>
+        <p>
+          Bring the system up slowly and keep the rear wheels off the ground
+          until everything works correctly.
+        </p>
+      </div>
+
+      <article class="step-grid">
+        <div>
+          <div class="step-label">Step 5.1</div>
+          <div class="step-title">Pre-power checks</div>
+        </div>
+        <div class="step-body">
+          <ol>
+            <li>
+              Lift the rear of the kart on sturdy stands so the wheels spin freely.
+            </li>
+            <li>Verify that the chain clears the frame and brake rotor.</li>
+            <li>
+              Use a multimeter to confirm correct battery voltage at the pack
+              terminals.
+            </li>
+            <li>
+              With the fuse still removed or breaker open, check that there is
+              no short between battery&nbsp;+ and battery&nbsp;−.
+            </li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="step-grid">
+        <div>
+          <div class="step-label">Step 5.2</div>
+          <div class="step-title">Initial power-on</div>
+        </div>
+        <div class="step-body">
+          <ol>
+            <li>
+              Insert the main fuse or close the breaker while the key switch is off.
+            </li>
+            <li>
+              Turn the key to “on”. The controller should power up (LED or app
+              depending on the model).
+            </li>
+            <li>
+              Gently roll on a small amount of throttle and watch the rear
+              wheels spin. If they spin in reverse, use the controller settings
+              or swap any two motor phase wires.
+            </li>
+            <li>
+              Listen for grinding, chain noise, or rubbing and fix anything
+              before riding.
+            </li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="step-grid">
+        <div>
+          <div class="step-label">Step 5.3</div>
+          <div class="step-title">On-ground testing</div>
+        </div>
+        <div class="step-body">
+          <ol>
+            <li>Lower the kart back to the ground.</li>
+            <li>Verify the mechanical brakes work perfectly before applying power.</li>
+            <li>
+              Start with short, slow passes in an open area with an adult
+              supervising. Gradually increase throttle only after you are sure
+              everything is stable.
+            </li>
+          </ol>
+        </div>
+      </article>
+    </section>
+
+    <footer>
+      <span>72V Electric Go-Kart Build Guide</span>
+      <span>Update this page whenever parts or wiring change.</span>
+    </footer>
   </main>
-
-  <footer>
-    <div>© <span id="year"></span> DIY Go-Kart Garage • Built by a student who really likes motors.</div>
-  </footer>
-
-  <script>
-    function scrollToSection(id) {
-      const el = document.getElementById(id);
-      if (el) el.scrollIntoView({ behavior: "smooth" });
-    }
-
-    document.getElementById("year").textContent = new Date().getFullYear();
-  </script>
 </body>
 </html>

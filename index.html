@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DIY Go-Kart Garage</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #050816;
+      color: #f9fafb;
+      line-height: 1.6;
+    }
+
+    header {
+      padding: 1.5rem 8vw;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+    }
+
+    nav a {
+      margin-left: 1.5rem;
+      text-decoration: none;
+      color: #e5e7eb;
+      font-size: 0.9rem;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    .hero {
+      padding: 4rem 8vw 3rem;
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+      gap: 3rem;
+      align-items: center;
+    }
+
+    .hero-tag {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: #9ca3af;
+      margin-bottom: 0.75rem;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 4vw, 3.5rem);
+      margin-bottom: 1rem;
+    }
+
+    .hero p {
+      color: #d1d5db;
+      max-width: 32rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .hero-cta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .btn-primary,
+    .btn-secondary {
+      border-radius: 999px;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      cursor: pointer;
+      font-size: 0.95rem;
+    }
+
+    .btn-primary {
+      background: #22c55e;
+      color: #022c22;
+      font-weight: 600;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid #4b5563;
+      color: #e5e7eb;
+    }
+
+    .hero-card {
+      background: radial-gradient(circle at top left, #22c55e33, #1f2937 60%);
+      border-radius: 1.5rem;
+      padding: 1.5rem;
+      border: 1px solid #374151;
+    }
+
+    .hero-card h2 {
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: #9ca3af;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero-card p {
+      font-size: 0.95rem;
+      color: #d1d5db;
+      margin-bottom: 1rem;
+    }
+
+    .hero-meta {
+      font-size: 0.8rem;
+      color: #9ca3af;
+    }
+
+    .section {
+      padding: 3rem 8vw;
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .section-subtitle {
+      font-size: 0.95rem;
+      color: #9ca3af;
+      margin-bottom: 1.5rem;
+      max-width: 36rem;
+    }
+
+    .about {
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+      gap: 2rem;
+      align-items: flex-start;
+    }
+
+    .about p {
+      color: #e5e7eb;
+    }
+
+    .about-list {
+      margin-top: 1rem;
+      list-style: none;
+    }
+
+    .about-list li::before {
+      content: "•";
+      margin-right: 0.4rem;
+      color: #22c55e;
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .project-card {
+      background: #020617;
+      border-radius: 1rem;
+      border: 1px solid #1f2937;
+      padding: 1.25rem;
+    }
+
+    .project-tag {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: #9ca3af;
+      margin-bottom: 0.5rem;
+    }
+
+    .project-title {
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .project-desc {
+      font-size: 0.9rem;
+      color: #d1d5db;
+      margin-bottom: 0.75rem;
+    }
+
+    .project-meta {
+      font-size: 0.8rem;
+      color: #9ca3af;
+    }
+
+    footer {
+      padding: 1.5rem 8vw 2rem;
+      font-size: 0.8rem;
+      color: #6b7280;
+      border-top: 1px solid #111827;
+      margin-top: 1rem;
+    }
+
+    footer a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+
+      nav {
+        display: flex;
+        width: 100%;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+      }
+
+      nav a {
+        margin-left: 0;
+        margin-right: 1.5rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .hero {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .about {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">DIY Go-Kart Garage</div>
+    <nav>
+      <a href="#about">About</a>
+      <a href="#projects">Builds</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div>
+        <div class="hero-tag">High School Garage Builds</div>
+        <h1>Building Electric Go-Karts From Scratch.</h1>
+        <p>
+          Follow along as I design, wire, and test my 72V electric go-kart project—
+          from frame design and motor selection to performance testing and upgrades.
+        </p>
+        <div class="hero-cta">
+          <button class="btn-primary" onclick="scrollToSection('projects')">
+            See Current Builds
+          </button>
+          <button class="btn-secondary" onclick="scrollToSection('about')">
+            Learn More About Me
+          </button>
+        </div>
+      </div>
+      <aside class="hero-card">
+        <h2>Build Stats</h2>
+        <p>
+          Latest project: 72V, 5000W BLDC setup using a Kunray KR5V motor,
+          custom mounting, and upgraded battery management.
+        </p>
+        <div class="hero-meta">
+          • Top speed goal: 40+ mph<br />
+          • Focus: safety, efficiency, and fun<br />
+          • Updated whenever I finish a new test
+        </div>
+      </aside>
+    </section>
+
+    <section id="about" class="section">
+      <div class="about">
+        <div>
+          <h2 class="section-title">About the Garage</h2>
+          <p>
+            I’m a high school student documenting my journey into EV power,
+            fabrication, and performance tuning by building electric go-karts.
+            This site is where I share what works, what fails, and everything in between.
+          </p>
+          <ul class="about-list">
+            <li>Breakdowns of parts and wiring</li>
+            <li>Testing results and real-world speeds</li>
+            <li>Notes on what I’d do differently next time</li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="section-subtitle">What you’ll find here</h3>
+          <p>
+            If you’re into DIY, EVs, or just fast toys with way too much power,
+            you’ll probably enjoy watching these builds evolve over time.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects" class="section">
+      <h2 class="section-title">Recent Builds</h2>
+      <p class="section-subtitle">
+        A quick look at the go-karts I’m currently working on. I’ll keep
+        updating these as I add new parts, tuning, and test runs.
+      </p>
+      <div class="projects-grid">
+        <article class="project-card">
+          <div class="project-tag">Current Build</div>
+          <h3 class="project-title">72V 5000W Street Kart</h3>
+          <p class="project-desc">
+            Full custom frame with 72V battery pack, BLDC motor, and reinforced
+            rear axle for higher torque and better traction.
+          </p>
+          <div class="project-meta">
+            Status: Wiring + first test runs<br />
+            Next: Braking upgrades and throttle tuning
+          </div>
+        </article>
+
+        <article class="project-card">
+          <div class="project-tag">Experiment</div>
+          <h3 class="project-title">Battery Swap Prototype</h3>
+          <p class="project-desc">
+            Testing modular battery mounts so I can swap packs fast without a
+            mess of loose wires or sketchy connections.
+          </p>
+          <div class="project-meta">
+            Status: Design phase<br />
+            Next: 3D-printed brackets and fitment testing
+          </div>
+        </article>
+
+        <article class="project-card">
+          <div class="project-tag">Archived</div>
+          <h3 class="project-title">First Brushed Motor Kart</h3>
+          <p class="project-desc">
+            My original build using a cheap brushed motor kit. Slow, janky, but
+            it taught me the basics of mounting, chain tension, and gearing.
+          </p>
+          <div class="project-meta">
+            Status: Retired<br />
+            Next: Maybe a full rebuild with new parts someday
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="contact" class="section">
+      <h2 class="section-title">Contact</h2>
+      <p class="section-subtitle">
+        Want to ask about a build, suggest a mod, or point out that I wired
+        something in the dumbest way possible? Reach out below.
+      </p>
+      <p>
+        (You can replace this section later with a real contact form or an email link.)
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    <div>© <span id="year"></span> DIY Go-Kart Garage • Built by a student who really likes motors.</div>
+  </footer>
+
+  <script>
+    function scrollToSection(id) {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: "smooth" });
+    }
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

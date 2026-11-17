@@ -308,12 +308,23 @@
       }
     }
   </style>
+  <link rel="canonical" href="https://flinthambleton.github.io/tuning.html">
+  <meta name="description" content="Project documentation and safety considerations for an electric vehicle motor controller.">
+  <style>
+  a:focus-visible,button:focus-visible{outline:2px solid #fff;outline-offset:4px}
+  .skip-link{position:absolute;left:1rem;top:1rem;transform:translateY(-200%);background:#fff;color:#020617;padding:.6rem 1rem;z-index:1000}
+  .skip-link:focus{transform:none}
+  .project-safety{padding:1rem;margin:1rem 0 2rem;border:1px solid #f97373;border-radius:.75rem;color:#e5e7eb}
+  @media(max-width:720px){.section-heading{flex-wrap:wrap} .parts-list{overflow-x:auto} nav a{padding:.6rem .25rem}}
+  @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+  </style>
 </head>
 <body>
+<a class="skip-link" href="#main-content">Skip to content</a>
   <header>
     <div class="nav-inner">
       <div class="logo"><a href="/">72V Electric Go-Kart</a></div>
-      <nav>
+      <nav aria-label="Main navigation">
         <a href="/"><span>01</span>Build Guide</a>
         <a href="#basics"><span>02</span>Basics</a>
         <a href="#limits"><span>03</span>Limits</a>
@@ -324,7 +335,8 @@
     </div>
   </header>
 
-  <main>
+  <main id="main-content" tabindex="-1">
+<aside class="project-safety" aria-label="Safety notice"><strong>Safety notice:</strong> This is personal project documentation, not a verified construction or operating manual. High-energy batteries and powered vehicles can cause serious injury, fire or electric shock. Electrical work, mechanical modifications and testing require qualified professional assessment. Do not attempt them independently.</aside>
     <section class="hero" id="top">
       <div class="hero-grid">
         <div>
@@ -581,6 +593,7 @@
     <footer>
       <span>Motor Controller Tuning Guide</span>
       <span><a href="/">Back to main build guide</a></span>
+    <span><a href="/privacy.html">Privacy information</a></span>
     </footer>
   </main>
 </body>
